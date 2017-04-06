@@ -1,0 +1,43 @@
+<form onsubmit="pesquisar()" id="formPesquisa">
+  <link rel="stylesheet" href="get-viacep/node_modules/bootstrap/dist/css/bootstrap.css">
+    <input type="text" name="input" value="">
+    <button type="submit" name="button">xana</button>
+</form>
+
+<div id="logradouro"></div>
+<div id="bairro"></div>
+<div id="complemento"></div>
+<div id="cep"></div>
+<div id="localidade"></div>
+<div id="ibge"></div>
+<div id="uf"></div>
+
+<script>
+    var procuraCep = ''
+    document.querySelector('#formPesquisa').addEventListener('submit', function(event) {
+        event.preventDefault()
+    })
+    var input = document.querySelector('input')
+    input.focus()
+
+    function pesquisar() {
+        var url = 'https://viacep.com.br/ws/' + input.value + '/json/'
+        var req = new XMLHttpRequest();
+        req.addEventListener('load', function(data) {
+            var response = JSON.parse(data.currentTarget.response)
+
+            document.querySelector('#logradouro').innerHTML = response.logradouro
+            document.querySelector('#bairro').innerHTML = response.bairro
+            document.querySelector('#complemento').innerHTML = response.complemento
+            document.querySelector('#cep').innerHTML = response.cep
+            document.querySelector('#localidade').innerHTML = response.localidade
+            document.querySelector('#ibge').innerHTML = response.ibge
+            document.querySelector('#uf').innerHTML = response.uf
+
+            console.log(response);
+        })
+
+        req.open('GET', url)
+        req.send()
+    }
+</script>
